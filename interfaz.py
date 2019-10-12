@@ -1,11 +1,20 @@
 from tkinter import *
 from tkinter.ttk import *
 import bot as bot
-
+'''
+def guardar():
+    datos = txt_prod.get()+";"+txt_talla.get()+";"+txt_email.get()+";"+box_web_name.get()+";"+txt_cardn.get()+";"+txt_codigo.get()+";"+txt_venc.get()+";"+txt_nom.get()+";"+txt_dir.get()+";"+txt_cp.get()+";"+txt_ciudad.get(),+";"+txt_tel.get()
+    fd = open("preset.txt")
+    write(fd,datos)
+    fd.close()
+'''
 def cargar():
     datos = open("preset.txt").read().split(';')
-    txt_prod.configure(text = datos[0])
-
+    print(datos)
+    Compra = bot.Compra(datos[0],datos[1],datos[2],datos[3],datos[4],
+                        datos[5],datos[6],datos[7],datos[8],datos[9],
+                        datos[10],datos[11].rstrip())
+    bot.dinerito(Compra)
 
 def comprar():
     Compra = bot.Compra(txt_prod.get(), txt_talla.get(), txt_email.get(),
@@ -79,10 +88,13 @@ lbl_tel.grid(column=0, row=11)
 txt_tel = Entry(window,width=40)
 txt_tel.grid(column=1, row=11)
 
-btn_compra = Button(window, text="Cargar desde archivo", command=cargar)
-btn_compra.grid(column=0, row=12)
+btn_carga = Button(window, text="Cargar y comprar", command=cargar)
+btn_carga.grid(column=0, row=12)
 
 btn_compra = Button(window, text="Comprar!", command=comprar)
 btn_compra.grid(column=1, row=12)
+
+btn_guardar = Button(window, text="Guardar preset", command=guardar)
+btn_guardar.grid(column=0, row=13)
 
 window.mainloop()
