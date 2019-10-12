@@ -1,23 +1,43 @@
 from tkinter import *
 from tkinter.ttk import *
 
+
+'''
+Los métodos con una '_' delante en el nombre son "privadas",
+aunque esto no existe en python, pero nos sirve para aclararnos.
+'''
 class Compra:
-    def _vec
+    def _venc_formateado(venc_crudo):
+        mes, año = venc_crudo.split('/')
+        return [mes,año]
+
+    def _url_pagina_seleccionada(nombre_pag):
+        if(nombre_pag == 'Supreme'):
+            return "https://www.supremenewyork.com/shop"
+        elif(nombre_pag == 'Amazon'):
+            return "https://www.amazon.es"
+        elif(nombre_pag == 'Adidas'):
+            return "https://www.adidas.es"
+        else return -1
+
+    #devuelve un vector con el nombre en la primera posición y los apellidos
+    #en las siguientes.
+    def _formato_nombre(nombre_completo):
+        return nombre_completo.split()
+
     def __init__(self, prod, talla, mail, pag, cc, cvv, venc, nombre, dir, cp, ciudad):
         self.producto = prod
         self.talla = Talla
         self.mail = mail
-        self.url =
+        self.url = _url_pagina_seleccionada(pag)
         self.cc = cc
         self.cvv = cvv
-        self.venc = venc
-        self.nombre = nombre
+        self.venc = _venc_formateado(venc)
+        self.nombre = _formato_nombre(nombre)
         self.direccion = dir
         self.cp = cp
         self.ciudad = ciudad
 
-    def agregar_truco(self, truco):
-        self.trucos.append(truco)
 
 def comprar():
     print("vamosssss")
