@@ -1,5 +1,7 @@
-from bs4 import BeautifulSoup
 import requests
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 
 '''
 Los métodos con una '_' delante en el nombre son "privadas",
@@ -53,3 +55,12 @@ def Busca_url_producto(C):
         if link.string == C.producto:
             if link.parent.next_sibling.contents[0].string == "Black":
                 return link['href']
+
+def dinerito(C):
+    driver = webdriver.Chrome()
+    driver.get("https://www.supremenewyork.com"+Busca_url_producto(C))
+    elem = driver.find_element_by_name("commit")
+    actions = webdriver.ActionChains(driver)
+    actions.move_to_element(elem)
+    actions.click(elem)
+    actions.perform()
