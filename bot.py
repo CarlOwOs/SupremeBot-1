@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+import time
 
 '''
 Los métodos con una '_' delante en el nombre son "privadas",
@@ -11,7 +12,7 @@ class Compra:
 
     def __init__(self, prod, talla, mail, pag,
                  cc, cvv, venc, nombre,
-                 dir, cp, ciudad):
+                 dir, cp, ciudad, tel):
 
         def _url_pagina_seleccionada(nombre_pag):
             if(nombre_pag == 'Supreme'):
@@ -26,10 +27,9 @@ class Compra:
             mes, año = venc_crudo.split('/')
             return [mes,año]
 
-        #devuelve un vector con el nombre en la primera posición y los apellidos
-        #en las siguientes.
-        def _formato_nombre(nombre_completo):
-            return nombre_completo.split()
+        def _formato_dir(dir):
+            calle, numero = dir.split(',')
+            return [calle,numero]
 
         self.producto = prod
         self.talla = talla
@@ -38,10 +38,11 @@ class Compra:
         self.cc = cc
         self.cvv = cvv
         self.venc = _venc_formateado(venc)
-        self.nombre = _formato_nombre(nombre)
-        self.direccion = dir
+        self.nombre = nombre
+        self.direccion = _formato_dir(dir)
         self.cp = cp
         self.ciudad = ciudad
+        self.telefono = tel
 
 def numero_enlaces(C):
     pagina = requests.get(C.url)
@@ -52,9 +53,8 @@ def Busca_url_producto(C):
     pagina = requests.get(C.url)
     soup = BeautifulSoup(pagina.content, "html.parser")
     for link in soup.find_all('a'):
-        if link.string == C.producto:
-            if link.parent.next_sibling.contents[0].string == "Black":
-                return link['href']
+        if link.string == C.producto and link.parent.next_sibling.contents[0].string == "Black":
+            return link['href']
 
 def dinerito(C):
     driver = webdriver.Chrome()
@@ -64,3 +64,20 @@ def dinerito(C):
     actions.move_to_element(elem)
     actions.click(elem)
     actions.perform()
+    time.sleep(0.1)
+    driver.get("https://www.supremenewyork.com/checkout")
+    element = driver.find_element_by_id('order_billing_name')
+    element.send_keys(C.nombre, Keys.TAB, C.mail,
+    Keys.TAB, C.telefono, Keys.TAB, C.direccion[0], Keys.TAB,
+    C.direccion[1], Keys.TAB, Keys.TAB, C.ciudad,
+    Keys.TAB, C.cp, Keys.TAB, 'SP')
+    element = driver.find_element_by_id('cnb')
+    element.send_keys(C.cc, Keys.TAB, C.venc[0], Keys.TAB,
+                      C.venc[1], Keys.TAB, C.cvv)
+    element = driver.find_element_by_id('order_terms')
+    actions = webdriver.ActionChains(driver)
+    actions.move_to_element(element)
+    actions.click(element)
+    actions.perform()
+    driver.save_screenshot('screenshot.png')
+    driver.close()

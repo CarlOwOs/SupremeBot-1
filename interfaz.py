@@ -2,14 +2,17 @@ from tkinter import *
 from tkinter.ttk import *
 import bot as bot
 
+def cargar():
+    datos = open("preset.txt").read().split(';')
+    txt_prod.configure(text = datos[0])
+
+
 def comprar():
-    print("vamosssss")
     Compra = bot.Compra(txt_prod.get(), txt_talla.get(), txt_email.get(),
                         box_web_name.get(), txt_cardn.get(), txt_codigo.get(),
                         txt_venc.get(), txt_nom.get(), txt_dir.get(), txt_cp.get(),
-                        txt_ciudad.get())
-    print(Compra.nombre, Compra.producto, Compra.venc)
-    bot.numero_enlaces(Compra)
+                        txt_ciudad.get(), txt_tel.get())
+    bot.dinerito(Compra)
 
 
 window = Tk()
@@ -71,7 +74,15 @@ lbl_ciudad.grid(column=0, row=10)
 txt_ciudad = Entry(window,width=40)
 txt_ciudad.grid(column=1, row=10)
 
+lbl_tel = Label(window, text="Teléfono:")
+lbl_tel.grid(column=0, row=11)
+txt_tel = Entry(window,width=40)
+txt_tel.grid(column=1, row=11)
+
+btn_compra = Button(window, text="Cargar desde archivo", command=cargar)
+btn_compra.grid(column=0, row=12)
+
 btn_compra = Button(window, text="Comprar!", command=comprar)
-btn_compra.grid(column=1, row=11)
+btn_compra.grid(column=1, row=12)
 
 window.mainloop()
