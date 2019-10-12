@@ -61,7 +61,7 @@ def Busca_url_producto(C):
 
 
 C = Compra("Textured Stripe Polo", "S", "megaelius4@gmail.com", "Supreme",
-               "0000 1111 2222 3333", "123", "01/20", "Pepito Pérez",
+               "0000 1111 2222 3333", "123", "01/2020", "Pepito Pérez",
                "Calle arriba 1", "03300", "Orihuela")
 
 driver = webdriver.Chrome()
@@ -74,7 +74,16 @@ actions.perform()
 #driver.implicitly_wait(3)
 time.sleep(1)
 driver.get("https://www.supremenewyork.com/checkout")
-
-element = driver.find_element_by_name('q')
-element.clear()
-element.send_keys('Como ganar la HACK UPC', Keys.ENTER)
+element = driver.find_element_by_id('order_billing_name')
+element.send_keys('Pepito', Keys.TAB, 'pepito@gmail.com',
+Keys.TAB, '696914140', Keys.TAB, 'c/UPC Campus Nord', Keys.TAB,
+'A5102', Keys.TAB, 'Barcelona, ESPAÑA', Keys.TAB, 'Barcelona',
+Keys.TAB, '03300', Keys.TAB, 'SP')
+element = driver.find_element_by_id('cnb')
+element.send_keys(C.cc, Keys.TAB, C.venc[0], Keys.TAB,
+                  C.venc[1], Keys.TAB, C.cvv)
+element = driver.find_element_by_id('order_terms')
+actions = webdriver.ActionChains(driver)
+actions.move_to_element(element)
+actions.click(element)
+actions.perform()
