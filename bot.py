@@ -13,7 +13,7 @@ class Compra:
 
         def _url_pagina_seleccionada(nombre_pag):
             if(nombre_pag == 'Supreme'):
-                return "https://www.supremenewyork.com/shop"
+                return "https://www.supremenewyork.com/shop/all/jackets"
             elif(nombre_pag == 'Amazon'):
                 return "https://www.amazon.es"
             elif(nombre_pag == 'Adidas'):
@@ -43,5 +43,12 @@ class Compra:
 
 def numero_enlaces(C):
     pagina = requests.get(C.url)
-    soup = BeautifulSoup(pagina.content)
-    soup.find_all('a')
+    soup = BeautifulSoup(pagina.content, "html.parser")
+    return(len(soup.find_all('a')))
+
+def Busca_producto(C):
+    pagina = requests.get(C.url)
+    soup = BeautifulSoup(pagina.content, "html.parser")
+    for link in soup.find_all('a'):
+        if link.string == C.producto: print(link)
+    print("hola")
