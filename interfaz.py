@@ -1,13 +1,13 @@
 from tkinter import *
 from tkinter.ttk import *
 import bot as bot
-'''
+
 def guardar():
-    datos = txt_prod.get()+";"+txt_talla.get()+";"+txt_email.get()+";"+box_web_name.get()+";"+txt_cardn.get()+";"+txt_codigo.get()+";"+txt_venc.get()+";"+txt_nom.get()+";"+txt_dir.get()+";"+txt_cp.get()+";"+txt_ciudad.get(),+";"+txt_tel.get()
-    fd = open("preset.txt")
-    write(fd,datos)
+    datos = txt_prod.get()+";"+txt_talla.get()+";"+txt_color.get()+";"+box_type.get()+";"+txt_email.get()+";"+box_web_name.get()+";"+txt_cardn.get()+";"+txt_codigo.get()+";"+txt_venc.get()+";"+txt_nom.get()+";"+txt_dir.get()+";"+txt_cp.get()+";"+txt_ciudad.get()+";"+txt_tel.get()
+    fd = open("preseeeet.txt", 'w')
+    fd.write(datos)
     fd.close()
-'''
+
 def cargar():
     datos = open("preset.txt").read().split(';')
     print(datos)
@@ -106,8 +106,8 @@ btn_carga.grid(column=0, row=14)
 
 btn_compra = Button(window, text="Comprar!", command=comprar)
 btn_compra.grid(column=1, row=14)
-'''
+
 btn_guardar = Button(window, text="Guardar preset", command=guardar)
 btn_guardar.grid(column=0, row=15)
-'''
+
 window.mainloop()
