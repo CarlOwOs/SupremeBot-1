@@ -10,13 +10,13 @@ aunque esto no existe en python, pero nos sirve para aclararnos.
 '''
 class Compra:
 
-    def __init__(self, prod, talla, mail, pag,
+    def __init__(self, prod, talla, color, type, mail, pag,
                  cc, cvv, venc, nombre,
                  dir, cp, ciudad, tel):
 
         def _url_pagina_seleccionada(nombre_pag):
             if(nombre_pag == 'Supreme'):
-                return "https://www.supremenewyork.com/shop/all/tops_sweaters"
+                return "https://www.supremenewyork.com/shop/all/" + self.type
             elif(nombre_pag == 'Amazon'):
                 return "https://www.amazon.es"
             elif(nombre_pag == 'Adidas'):
@@ -33,6 +33,8 @@ class Compra:
 
         self.producto = prod
         self.talla = talla
+        self.color = color
+        self.type = type
         self.mail = mail
         self.url = _url_pagina_seleccionada(pag)
         self.cc = cc
@@ -53,7 +55,7 @@ def Busca_url_producto(C):
     pagina = requests.get(C.url)
     soup = BeautifulSoup(pagina.content, "html.parser")
     for link in soup.find_all('a'):
-        if link.string == C.producto and link.parent.next_sibling.contents[0].string == "Black":
+        if link.string == C.producto and link.parent.next_sibling.contents[0].string == C.color:
             return link['href']
 
 def dinerito(C):
