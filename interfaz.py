@@ -4,7 +4,7 @@ import bot as bot
 
 def guardar():
     datos = txt_prod.get()+";"+txt_talla.get()+";"+txt_color.get()+";"+box_type.get()+";"+txt_email.get()+";"+box_web_name.get()+";"+txt_cardn.get()+";"+txt_codigo.get()+";"+txt_venc.get()+";"+txt_nom.get()+";"+txt_dir.get()+";"+txt_cp.get()+";"+txt_ciudad.get()+";"+txt_tel.get()
-    fd = open("preseeeet.txt", 'w')
+    fd = open("preset.txt", 'w')
     fd.write(datos)
     fd.close()
 
